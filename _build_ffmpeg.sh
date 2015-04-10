@@ -25,7 +25,6 @@ function build_ffmpeg {
   prefix=${src_root}/ffmpeg/android/arm
   addi_cflags="-marm"
   addi_ldflags=""
-  export PKG_CONFIG_PATH="${src_root}/openssl-android:${src_root}/rtmpdump/librtmp"
   ./configure \
     --prefix=${prefix} \
     --enable-shared \
@@ -39,11 +38,10 @@ function build_ffmpeg {
     --target-os=linux \
     --arch=arm \
     --enable-cross-compile \
-    --enable-librtmp \
     --enable-decoder=h264 \
     --sysroot=${SYSROOT} \
     --extra-cflags="-Os -fpic ${addi_cflags}" \
-    --extra-ldflags="-L${src_root}/openssl-android/libs/armeabi ${addi_ldflags}" \
+    --extra-ldflags="${addi_ldflags}" \
     --pkg-config=$(which pkg-config) >> ${build_log} 2>&1 || die "Couldn't configure ffmpeg!"
 
   # build
